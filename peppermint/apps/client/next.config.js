@@ -17,12 +17,18 @@ module.exports = withPlugins(
     output: 'standalone',
 
     async rewrites() {
-      const apiBase =
+      let apiBase =
         process.env.API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5003';
+      apiBase = apiBase.replace(/\/$/, '');
+      if (!/^https?:\/\//i.test(apiBase)) {
+        apiBase = /localhost/i.test(apiBase)
+          ? `http://${apiBase}`
+          : `https://${apiBase}`;
+      }
       return [
         {
           source: '/api/v1/:path*',
-          destination: `${apiBase.replace(/\/$/, '')}/api/v1/:path*`,
+          destination: `${apiBase}/api/v1/:path*`,
         },
       ];
     },

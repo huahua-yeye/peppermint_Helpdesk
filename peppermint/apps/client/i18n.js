@@ -4,5 +4,6 @@ module.exports = {
   pages: {
     "*": ["peppermint"],
   },
-  localeDetection: true,
+  // Next 14+ config schema only accepts false here (true breaks `next build`)
+  localeDetection: false,
 };
