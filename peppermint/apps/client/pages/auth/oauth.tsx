@@ -20,7 +20,10 @@ export default function Login() {
   }
 
   function setandRedirect(token) {
-    setCookie("session", token, { maxAge: 60 * 6 * 24 });
+    // cookies-next OptionsType vs cookie@1 types mismatch in strict builds
+    setCookie("session", token, { maxAge: 60 * 6 * 24 } as Parameters<
+      typeof setCookie
+    >[2]);
     router.push("/onboarding");
   }
 

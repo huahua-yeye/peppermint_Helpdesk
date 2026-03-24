@@ -20,6 +20,9 @@ export type Ticket = {
   type: string;
   status: string;
   createdAt: string;
+  /** Rich text / JSON body from API (ticket update payload) */
+  detail?: string;
+  note?: string;
   team?: Team;
   assignedTo?: User;
   isComplete: boolean;
