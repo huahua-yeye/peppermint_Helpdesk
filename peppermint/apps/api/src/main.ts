@@ -107,10 +107,10 @@ const start = async () => {
     await prisma.$connect();
     server.log.info("Connected to Prisma");
 
-    const port = 5003;
+    const port = Number(process.env.PORT) || 5003;
 
     server.listen(
-      { port: Number(port), host: "0.0.0.0" },
+      { port, host: "0.0.0.0" },
       async (err, address) => {
         if (err) {
           console.error(err);

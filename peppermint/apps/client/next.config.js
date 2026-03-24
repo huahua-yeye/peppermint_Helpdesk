@@ -17,10 +17,12 @@ module.exports = withPlugins(
     output: 'standalone',
 
     async rewrites() {
+      const apiBase =
+        process.env.API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5003';
       return [
         {
           source: '/api/v1/:path*',
-          destination: 'http://localhost:5003/api/v1/:path*',
+          destination: `${apiBase.replace(/\/$/, '')}/api/v1/:path*`,
         },
       ];
     },
