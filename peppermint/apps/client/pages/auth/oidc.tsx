@@ -14,16 +14,16 @@ export default function Login() {
       if (!sso.success) {
         router.push("/auth/login?error=account_not_found");
       } else {
-        setandRedirect(sso.token, sso.onboarding);
+        setandRedirect(sso.token);
       }
     }
   }
 
-  function setandRedirect(token: string, onboarding: boolean) {
+  function setandRedirect(token: string) {
     setCookie("session", token, { maxAge: 60 * 6 * 24 } as Parameters<
       typeof setCookie
     >[2]);
-    router.push(onboarding ? "/onboarding" : "/");
+    router.push("/");
   }
 
   useEffect(() => {

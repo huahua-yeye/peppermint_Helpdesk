@@ -27,11 +27,7 @@ export default function Login({}) {
             if (res.user.external_user) {
               router.push("/portal");
             } else {
-              if (res.user.firstLogin) {
-                router.push("/onboarding");
-              } else {
-                router.push("/");
-              }
+              router.push("/");
             }
           } else {
             toast({

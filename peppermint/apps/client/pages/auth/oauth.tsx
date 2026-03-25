@@ -24,7 +24,7 @@ export default function Login() {
     setCookie("session", token, { maxAge: 60 * 6 * 24 } as Parameters<
       typeof setCookie
     >[2]);
-    router.push("/onboarding");
+    router.push("/");
   }
 
   useEffect(() => {
