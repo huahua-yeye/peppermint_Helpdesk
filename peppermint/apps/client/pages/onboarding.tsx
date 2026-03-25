@@ -34,7 +34,7 @@ export default function Home() {
                 Peppermint{" "}
               </h1>
               <p className="text-foreground">
-                Welcome to Peppermint! A fully open sourced ticket management
+                Welcome to Helpdesk! A fully open sourced ticket management
                 system.
               </p>
             </div>

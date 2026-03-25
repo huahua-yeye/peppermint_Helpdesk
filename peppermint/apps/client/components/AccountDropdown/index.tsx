@@ -1,4 +1,17 @@
-import { Cloud, LogOut, Settings, User } from "lucide-react";
+import {
+  Cloud,
+  CreditCard,
+  Keyboard,
+  LogOut,
+  Mail,
+  MessageSquare,
+  Plus,
+  PlusCircle,
+  Settings,
+  User,
+  UserPlus,
+  Users,
+} from "lucide-react";
 
 import { Button } from "@/shadcn/ui/button";
 import {
@@ -7,7 +20,12 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuPortal,
   DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/shadcn/ui/dropdown-menu";
 import { useUser } from "../../store/session";

@@ -250,7 +250,7 @@ export function authRoutes(fastify: FastifyInstance) {
     }
   );
 
-  // Reset users password via code
+  // Reset users password via code验证/安全限制，需在 Yahoo 账号安全里生成 应用专用密码（App password）
   fastify.post(
     "/api/v1/auth/password-reset/password",
     async (request: FastifyRequest, reply: FastifyReply) => {

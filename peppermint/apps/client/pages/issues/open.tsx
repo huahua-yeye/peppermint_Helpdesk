@@ -33,8 +33,8 @@ import Link from "next/link";
 import { useQuery } from "react-query";
 import { useUser } from "../../store/session";
 
-async function getUserTickets(token: any) {
-  const res = await fetch(`/api/v1/tickets/user/open`, {
+async function getOpenTickets(token: any) {
+  const res = await fetch(`/api/v1/tickets/open`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -69,8 +69,8 @@ export default function Tickets() {
 
   const token = getCookie("session");
   const { data, status, error, refetch } = useQuery(
-    "allusertickets",
-    () => getUserTickets(token),
+    "issues_open_all",
+    () => getOpenTickets(token),
     {
       refetchInterval: 5000,
     }

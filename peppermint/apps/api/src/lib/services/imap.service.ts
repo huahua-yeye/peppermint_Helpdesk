@@ -5,6 +5,28 @@ import { prisma } from "../../prisma";
 import { EmailConfig, EmailQueue } from "../types/email";
 import { AuthService } from "./auth.service";
 
+/** 同一队列认证失败日志节流，避免定时拉信每几秒刷满终端 */
+const IMAP_AUTH_FAILURE_COOLDOWN_MS = 5 * 60 * 1000;
+const imapAuthFailureLastLog = new Map<string, number>();
+
+function isImapAuthFailure(err: unknown): boolean {
+  return (
+    typeof err === "object" &&
+    err !== null &&
+    (err as { textCode?: string }).textCode === "AUTHENTICATIONFAILED"
+  );
+}
+
+function logImapAuthFailureHint(queueId: string, serviceType: string): void {
+  const now = Date.now();
+  const last = imapAuthFailureLastLog.get(queueId) ?? 0;
+  if (now - last < IMAP_AUTH_FAILURE_COOLDOWN_MS) return;
+  imapAuthFailureLastLog.set(queueId, now);
+  console.warn(
+    `[EmailQueue ${queueId}] IMAP 认证失败 (AUTHENTICATIONFAILED)，类型: ${serviceType || "unknown"}。请核对完整邮箱、密码/OAuth：Gmail 建议重新授权且 scope 含 https://mail.google.com/；Other 须用应用专用密码。无效队列可在 Admin → Email Queues 删除后重建。`
+  );
+}
+
 function getReplyText(email: any): string {
   const parsed = new EmailReplyParser().read(email.text);
   // v2+ getVisibleText() strips hidden/signature/quoted fragments
@@ -250,7 +272,12 @@ export class ImapService {
           imap.connect();
         });
       } catch (error) {
-        console.error(`Error processing queue ${queue.id}:`, error);
+        const st = String(queue.serviceType || "").toLowerCase();
+        if (isImapAuthFailure(error)) {
+          logImapAuthFailureHint(queue.id, st);
+        } else {
+          console.error(`Error processing queue ${queue.id}:`, error);
+        }
       }
     }
   }
